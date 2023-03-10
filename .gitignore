@@ -1,2 +1,2 @@
-docker/mysql/*
-src/storage/app/documentos/*
+src/storage/app/public/*
+src/docker/mysql/*
