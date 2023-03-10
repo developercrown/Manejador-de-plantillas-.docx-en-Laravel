@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Classes\TemplateDocxEngine;
+use Carbon\Carbon;
 
 class GeneratorController extends Controller
 {
@@ -29,13 +30,13 @@ class GeneratorController extends Controller
             "nombreCarrera" => "Licenciatura en Intervención Educativa",
             "modalidadCarrera" => "Presencial",
             "nombreResponsableServiciosEscolares" => "ISC. David Alejandro Gálvez Garduño",
-            "fechaExpedicion" => "03/03/2023",
+            "fechaExpedicion" => Carbon::now()->format('d/m/Y'),
         );
 
         /* *********************************************************************** */
 
         $formato = "formato_recepcion_documental_2023.docx";
-        $document = new TemplateDocxEngine($formato, $data);
+        $document = new TemplateDocxEngine($formato, $data, "formato de entrega documental");
         return $document->create();
     }
 
