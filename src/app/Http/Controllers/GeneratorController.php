@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use PhpOffice\PhpWord\TemplateProcessor;
-use Illuminate\Support\Facades\Storage;
+use App\Classes\TemplateDocxEngine;
 
 class GeneratorController extends Controller
 {
@@ -36,32 +34,10 @@ class GeneratorController extends Controller
 
         /* *********************************************************************** */
 
-        $storage = Storage::disk('formatos');
-
-        $templateFile = $storage->path("formato_recepcion_documental_2023.docx");
-
-        $resultado = public_path() . Storage::url(Carbon::now()->toDateTimeString().'.docx');
-
-        // Cargar el archivo original
-        $template = new TemplateProcessor($templateFile);
-
-        // Reemplaza los valores contenidos en la plantilla con los valores ingresados en la variable datos
-        $this->replaceValuesOnTemplate($template, $data);
-
-        // Guardar el archivo modificado
-        $template->saveAs($resultado);
-
-        // Descargar el archivo modificado
-        return response()->download($resultado)->deleteFileAfterSend(true);
+        $formato = "formato_recepcion_documental_2023.docx";
+        $document = new TemplateDocxEngine($formato, $data);
+        return $document->create();
     }
 
-    public function replaceValuesOnTemplate($template, $data){
-        foreach ($data as $clave => $valor) {
-            $this->remplaceTemplateValue($template, $clave, $valor);
-        }
-    }
-
-    public function remplaceTemplateValue($template, $column, $value){
-        $template->setValue($column, $value);
-    }
+    
 }
