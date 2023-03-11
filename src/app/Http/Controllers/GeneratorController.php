@@ -36,9 +36,20 @@ class GeneratorController extends Controller
         /* *********************************************************************** */
 
         $formato = "formato_recepcion_documental_2023.docx";
-        $document = new TemplateDocxEngine($formato, $data, "formato de entrega documental");
-        return $document->create();
+        $document = new TemplateDocxEngine($formato, $data, "formato de entrega documental", "formatos");
+        $outputPath = $document->create();
+        return $outputPath;
+
+        // Download result file
+        // return response()->download($outputPath);//->deleteFileAfterSend(true);
     }
 
-    
+    public function parse(){
+        $formato = "";
+        // $result = public_path() . "/" .$formato;
+        $document = new TemplateDocxEngine("formato de entrega documental - 2023-03-10 21:41:44.docx", null, "formato de entrega documental", "public");
+        return $document->docToPdf();
+    }
+
+
 }

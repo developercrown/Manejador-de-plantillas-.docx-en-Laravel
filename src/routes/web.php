@@ -19,3 +19,4 @@ Route::get('/', function () {
 
 
 Route::get('/run', [GeneratorController::class, "generate"]);
+Route::get('/convert', [GeneratorController::class, "parse"]);
